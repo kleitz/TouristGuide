@@ -1,1 +1,5 @@
 /* Empty. Add your own CSS if you like */
+#mapid {
+    min-height:100px;
+    height:100%;
+}
