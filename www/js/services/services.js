@@ -1,7 +1,9 @@
 angular.module('starter.services', [])
 
-.factory('Restaurants', function() {
+.factory('Restaurants', ['$http', function($http) {
   // Might use a resource here that returns a JSON array
+
+
 
   // Some fake testing data
   var restaurants = [{
@@ -47,4 +49,5 @@ angular.module('starter.services', [])
       return null;
     }
   };
-});
+}]);
+

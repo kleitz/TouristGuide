@@ -1,4 +1,5 @@
 angular.module('starter.controllers', [])
+.constant('YelpApiUrl', 'https://api.yelp.com/v2/')
 
 .controller('MapCtrl', function($scope) {
 
@@ -11,7 +12,7 @@ angular.module('starter.controllers', [])
   }).addTo(mymap);
 })
 
-.controller('RestaurantsNearbyCtrl', function($scope, Restaurants) {
+.controller('RestaurantsNearbyCtrl', function($scope, $http, YelpApiUrl) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -20,10 +21,28 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  $scope.restaurants = Restaurants.all();
-  $scope.remove = function(restaurant) {
-    Restaurants.remove(restaurant);
-  };
+  var httpMethod = 'GET',
+      endPoint = 'search/?location=San Francisco, CA',
+      parameters = {
+        oauth_consumer_key : '6CCgnRLENZ-dCYvYZ-MTsA',
+        oauth_token : 'Qw_T4w8U3Ur5qIgsQwrdhkalitIM4SQv',
+        oauth_nonce : randomString(16),
+        oauth_timestamp : Date.now(),
+        oauth_signature_method : 'HMAC-SHA1',
+        oauth_version : '1.0'
+      },
+      consumerSecret = 'CA-7yCPviP6GWQa8KM-qXxLWHXE',
+      tokenSecret = 'Va2KxCcKyCXH9H7yoMdMU8VDDHM',
+
+      encodedSignature = oauthSignature.generate(httpMethod, YelpApiUrl + endPoint, parameters, consumerSecret, tokenSecret),
+      signature = oauthSignature.generate(httpMethod, YelpApiUrl + endPoint, parameters, consumerSecret, tokenSecret,
+          { encodeSignature: false});
+
+  parameters['oauth_signature'] = encodedSignature;
+
+  // Simple GET request example:
+  $http.get('http://localhost:8100/v2/' + endPoint, parameters).then(successCallback, errorCallback);
+
 })
 
 .controller('RestaurantsDetailCtrl', function($scope, $stateParams, Restaurants) {
@@ -34,15 +53,25 @@ angular.module('starter.controllers', [])
   $scope.settings = {
     enableFriends: true
   };
-})
-
-.controller("OauthExample", function($scope, $cordovaOauth) {
-  $scope.yelpLogin = function() {
-    $cordovaOauth.google("CLIENT_ID_HERE", ["https://www.googleapis.com/auth/urlshortener", "https://www.googleapis.com/auth/userinfo.email"]).then(function(result) {
-      console.log(JSON.stringify(result));
-    }, function(error) {
-      console.log(error);
-    });
-  }
 });
 
+function successCallback(response) {
+  // this callback will be called asynchronously
+  // when the response is available
+  console.log(response);
+}
+
+function errorCallback(response) {
+  // called asynchronously if an error occurs
+  // or server returns response with an error status.
+  console.log(response);
+}
+
+var randomString = function(length) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for(var i = 0; i < length; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+};
