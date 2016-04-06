@@ -10,6 +10,7 @@ angular.module('starter.controllers', [])
     id: 'norlock.pi27ck85',
     accessToken: 'pk.eyJ1Ijoibm9ybG9jayIsImEiOiJjaW1ld2RoZ20wMDQwdmptM3E1OXd6cHQyIn0.IThbBD1fZ4jfL7qfQ-XfLw'
   }).addTo(mymap);
+  $scope.map = mymap;
 })
 
 .controller('RestaurantsNearbyCtrl', function($scope, Restaurants) {
@@ -22,8 +23,6 @@ angular.module('starter.controllers', [])
   //});
 
   $scope.restaurants = Restaurants.all();
-
-
 })
 
 .controller('RestaurantsDetailCtrl', function($scope, $stateParams, Restaurants) {

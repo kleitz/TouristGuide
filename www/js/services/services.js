@@ -3,30 +3,6 @@ angular.module('starter.services', [])
 .factory('Restaurants', function($http, YelpApiUrl) {
   // Might use a resource here that returns a JSON array
 
-  var httpMethod = 'GET',
-      endPoint = 'search',
-      parameters = {
-        callback: 'angular.callbacks._0',
-        ll : 52.2215 + ',' + 6.8937,
-        term : 'food',
-        accuracy: 100,
-        oauth_consumer_key : '6CCgnRLENZ-dCYvYZ-MTsA',
-        oauth_token : 'Qw_T4w8U3Ur5qIgsQwrdhkalitIM4SQv',
-        oauth_nonce : randomString(16),
-        oauth_timestamp : (Date.now() / 1000),
-        oauth_signature_method : 'HMAC-SHA1',
-        oauth_version : '1.0'
-      },
-      consumerSecret = 'CA-7yCPviP6GWQa8KM-qXxLWHXE',
-      tokenSecret = 'Va2KxCcKyCXH9H7yoMdMU8VDDHM',
-
-      signature = oauthSignature.generate(httpMethod, YelpApiUrl + endPoint, parameters, consumerSecret, tokenSecret,
-          { encodeSignature: false});
-  parameters['oauth_signature'] = signature;
-  console.log(parameters);
-  // Simple GET request example:
-  $http.get('http://localhost:8100/v2/' + endPoint, parameters).then(successCallback, errorCallback);
-
   // Some fake testing data
   var restaurants = [{
     id: 0,
@@ -57,8 +33,33 @@ angular.module('starter.services', [])
 
   return {
     all: function() {
-      console.log(restaurants);
-      return restaurants;
+      var httpMethod = 'GET';
+      var parameters = {
+            cll: 52.2215 + ',' + 6.8937,
+            oauth_consumer_key: '6CCgnRLENZ-dCYvYZ-MTsA',
+            oauth_token: 'fglTkJXMd91K1kWKdM3qowiM9FVj7yqk',
+            oauth_signature_method: 'HMAC-SHA1',
+            oauth_timestamp: new Date().getTime(),
+            oauth_nonce: randomString(16),
+            oauth_version: '1.0',
+            term: 'food',
+            limit: 20
+          };
+      var consumerSecret = 'CA-7yCPviP6GWQa8KM-qXxLWHXE';
+      var tokenSecret = '6waG5OwxOSF5iAUVykmyGgDTgWM';
+
+      parameters['oauth_signature'] = oauthSignature.generate(httpMethod, 'http://api.yelp.com/v2/search', parameters, consumerSecret, tokenSecret, {encodeSignature : false});
+      console.log(parameters);
+      // Simple GET request example:
+      $http.get(
+        'http://localhost:8100/v2/search',
+        { params : parameters})
+          .then(function(response) {
+            console.log(response);
+          }, function(error) {
+            console.log(error);
+          });
+
     },
     remove: function(restaurant) {
       restaurants.splice(restaurants.indexOf(restaurant), 1);
@@ -73,18 +74,6 @@ angular.module('starter.services', [])
     }
   };
 });
-
-function successCallback(response) {
-  // this callback will be called asynchronously
-  // when the response is available
-  console.log(response);
-}
-
-function errorCallback(response) {
-  // called asynchronously if an error occurs
-  // or server returns response with an error status.
-  console.log(response);
-}
 
 var randomString = function(length) {
   var text = "";
