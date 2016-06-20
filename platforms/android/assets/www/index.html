@@ -6,7 +6,6 @@
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     <link href="css/style.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -14,25 +13,40 @@
     -->
 
     <!-- leaflet js -->
-    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js"></script>
 
+    <!-- Yelp -->
     <!-- ionic/angularjs js -->
+    <!--<script src="lib/oauth/lib/oauth.js"></script>
+-->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
+    <script src="lib/oauth-signature/dist/oauth-signature.js"></script>
+    <script src="lib/angular-local-storage/dist/angular-local-storage.js"></script>
+
     <!-- cordova script (this will be a 404 during development) -->
-    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="cordova.js"></script>
 
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services/services.js"></script>
+    <script src="js/tg-module.js"></script>
+    <script src="js/tg-config.js"></script>
+
+    <!-- Map !-->
+    <script src="js/map/map-module.js"></script>
+    <script src="js/map/map-controller.js"></script>
+    <script src="js/map/map-service.js"></script>
+
+    <!-- Yelp -->
+    <script src="js/yelp/yelp-module.js"></script>
+    <script src="js/yelp/yelp-controller.js"></script>
+    <script src="js/yelp/yelp-service.js"></script>
   </head>
-  <body ng-app="starter">
+  <body ng-app="tg" class="platform-android platform-cordova platform-webview">
     <!--
       The nav bar that will be updated as we navigate between views.
     -->
-    <ion-nav-bar class="bar-positive">
+    <ion-nav-bar class="bar-stable">
       <ion-nav-back-button>
       </ion-nav-back-button>
     </ion-nav-bar>
