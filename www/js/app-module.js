@@ -4,6 +4,6 @@
 (function () {
   'use strict';
 
-  angular.module('tg.map', [])
+  angular.module('tg.app', [])
 
 })();

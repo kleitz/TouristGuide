@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('tg.map')
+    .module('tg.app')
     .service('YelpService', YelpService);
 
   YelpService.$inject = ['$http'];
@@ -10,10 +10,10 @@
   /* @ngInject */
   function YelpService($http) {
     this.getRestaurants = getRestaurants;
-
+    this.getRestaurantById = getRestaurantById;
+    var restaurants = [];
 
     function getRestaurants(lat, lng) {
-      
       console.log('Lat: ' + lat + ' long: ' + lng);
 
       var method = 'GET';
@@ -30,10 +30,20 @@
       };
       var consumerSecret = 'CA-7yCPviP6GWQa8KM-qXxLWHXE'; //Consumer Secret
       var tokenSecret = 'FASCXvz3fpA5WtpM7y9F8Y0V7sY'; //Token Secret
-      var signature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, { encodeSignature: false});
 
-      params['oauth_signature'] = signature;
-      return $http.jsonp(url, {params: params});
+      params['oauth_signature'] = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, { encodeSignature: false});
+      return $http.jsonp(url, {params: params}).then(function (response) {
+        restaurants = response.data.businesses;
+        return restaurants;
+      });
+    }
+
+
+    function getRestaurantById(restaurantId) {
+      for(var i = 0; i < restaurants.length; i++) {
+        var restaurant = restaurants[i];
+        if(restaurant.id == restaurantId) return restaurant;
+      }
     }
   }
 

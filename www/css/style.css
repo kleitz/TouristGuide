@@ -3,3 +3,21 @@
   min-height:100px;
   height:100%;
 }
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.frame {
+  display:block;
+  vertical-align: middle;
+}
+

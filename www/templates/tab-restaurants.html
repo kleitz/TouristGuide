@@ -1,15 +1,15 @@
-<ion-view view-title="Restaurants" ng-init="restaurants()">
+<ion-view view-title="Restaurants" ng-init="loadRestaurants()">
   <ion-content>
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/restaurants/{{chat.id}}">
-        <img ng-src="{{chat.face}}">
-        <h2>{{chat.name}}</h2>
-        <p>{{chat.lastText}}</p>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="restaurant in restaurants" type="item-text-wrap" ui-sref="tab.restaurants-detail({id: restaurant.id})" >
+        <img ng-src="{{restaurant.image_url}}">
+        <h2>{{restaurant.name}}</h2>
+        <img ng-src="{{restaurant.rating_img_url_small}}">
         <i class="icon ion-chevron-right icon-accessory"></i>
 
-        <ion-option-button class="button-assertive" ng-click="remove(chat)">
-          Delete
-        </ion-option-button>
+        <!--<ion-option-button class="button-assertive" ng-click="remove(restaurant)">  Deze wordt straks wel bij favorieten gebruikt  -->
+          <!--Delete-->
+        <!--</ion-option-button>-->
       </ion-item>
     </ion-list>
   </ion-content>

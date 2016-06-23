@@ -61,16 +61,17 @@
         views: {
           'tab-restaurants': {
             templateUrl: 'templates/tab-restaurants.html',
-            controller: 'MapCtrl'
+            controller: 'YelpCtrl'
           }
         }
       })
+
       .state('tab.restaurants-detail', {
-        url: '/restaurants-nearby/:restaurantId',
+        url: '/restaurants/:id',
         views: {
-          'tab-restaurants-nearby': {
+          'tab-restaurants': {
             templateUrl: 'templates/restaurant-detail.html',
-            controller: 'RestaurantsDetailCtrl'
+            controller: 'YelpCtrl'
           }
         }
       })

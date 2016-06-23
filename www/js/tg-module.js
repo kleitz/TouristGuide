@@ -6,7 +6,8 @@
   'use strict';
   angular.module('tg', [
     'ionic',
-    'tg.map'
+    'tg.app',
+    'ngStorage'
   ])
 
 })();

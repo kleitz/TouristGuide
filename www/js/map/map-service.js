@@ -5,7 +5,7 @@
   'use strict';
 
   angular
-    .module('tg.map')
+    .module('tg.app')
     .service('MapService', MapService);
 
   //MapService.$inject = [''];
