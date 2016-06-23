@@ -1,0 +1,24 @@
+<ion-view view-title="Gallery">
+  <ion-content>
+    <ion-list>
+      <ion-item  class="row" ng-repeat="image in images" ng-if="$index % 3 === 0">
+        <div class="column-left" ng-if="$index < images.length">
+          <img ng-src="{{images[$index].imageUrl}}" class="gallery" ng-click="showImage($index)"/>
+        </div>
+        <div class="column-center" ng-if="$index + 1 < images.length">
+          <img ng-src="{{images[$index + 1].imageUrl}}" class="gallery" ng-click="showImage($index + 1)" />
+        </div>
+        <div class="column-right" ng-if="$index + 2 < images.length">
+          <img ng-src="{{images[$index + 2].imageUrl}}" class="gallery" ng-click="showImage($index + 2)" />
+        </div>
+      </ion-item>
+    </ion-list>
+    <script id="image-modal.html" type="text/ng-template">
+      <div class="modal image-modal transparent" ng-click="closeModal()">
+        <ion-pane class="transparent">
+          <img ng-src="{{imageSrc}}" class="fullscreen-image"/>
+        </ion-pane>
+      </div>
+    </script>
+  </ion-content>
+</ion-view>

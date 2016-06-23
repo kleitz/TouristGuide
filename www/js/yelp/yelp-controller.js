@@ -40,13 +40,15 @@
     $scope.getRestaurantById = function () {
       var restaurantId = $stateParams.id;
       $scope.restaurant = YelpService.getRestaurantById(restaurantId);
+      $scope.showSnippetText = ($scope.restaurant.snippet_text !== undefined); // laat een card zien als er tekst is
+
       isRestaurantFavorite(restaurantId);
     };
 
     function isRestaurantFavorite(restaurantId) {
       $scope.favorite = {};
       $scope.favorite.bool = false;
-      $scope.favorite.text = 'Add to favorites';
+      $scope.favorite.text = 'Favorites';
 
       // Lokale opslag zetten als die nog niet bestaat
       if($localStorage.favorites == undefined) {
@@ -60,7 +62,7 @@
         var favoriteId = favorites[i].id;
         if(favoriteId == restaurantId) {
           $scope.favorite.bool = true;
-          $scope.favorite.text = 'Remove from favorites';
+          $scope.favorite.text = 'Unfavorite';
         }
       }
     }
@@ -71,7 +73,7 @@
       if($scope.favorite.bool)
       {
         $localStorage.favorites.push($scope.restaurant);
-        $scope.favorite.text = 'Remove from favorites';
+        $scope.favorite.text = 'Unfavorite';
       }
       // Verwijderen van favorieten
       else
@@ -80,7 +82,7 @@
         if (index > -1) {
           array.splice(index, 1);
         }
-        $scope.favorite.text = 'Add to favorites';
+        $scope.favorite.text = 'Favorites';
       }
     }
   }

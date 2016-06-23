@@ -28,9 +28,10 @@
         <a href="{{restaurant.mobile_url}}">Link to the yelp page</a>
       </ul>
     </div>
-    <p>
-      {{restaurant.snippet_text}}
-
-    </p>
+    <div class="card" ng-show="showSnippetText">
+      <div class="item item-text-wrap">
+        {{restaurant.snippet_text}}
+      </div>
+    </div>
   </ion-content>
 </ion-view>

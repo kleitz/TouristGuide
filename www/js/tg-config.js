@@ -76,12 +76,22 @@
         }
       })
 
-      .state('tab.account', {
-        url: '/account',
+      .state('tab.gallery', {
+        url: '/gallery',
         views: {
-          'tab-account': {
-            templateUrl: 'templates/tab-account.html',
-            controller: 'AccountCtrl'
+          'tab-gallery': {
+            templateUrl: 'templates/tab-gallery.html',
+            controller: 'FlickrCtrl'
+          }
+        }
+      })
+
+      .state('tab.favorites', {
+        url: '/favorites',
+        views: {
+          'tab-favorites': {
+            templateUrl: 'templates/tab-favorites.html',
+            controller: 'FavoritesCtrl'
           }
         }
       });

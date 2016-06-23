@@ -21,3 +21,17 @@
   vertical-align: middle;
 }
 
+.column-left{ float: left; width: 33%; }
+.column-right{ float: right; width: 33%; }
+.column-center{ display: inline-block; width: 33%;  }
+
+
+.gallery {
+  height: 80%;
+  width: 80%;
+
+  margin: 10%;
+  vertical-align: middle;
+  display: inline-block;
+  border:3px solid black;
+}
