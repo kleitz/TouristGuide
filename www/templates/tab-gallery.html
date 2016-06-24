@@ -1,24 +1,43 @@
 <ion-view view-title="Gallery">
+  <ion-nav-buttons side="secondary">
+    <button class="button" ng-click="loadFavorites()">
+      Favorites
+    </button>
+  </ion-nav-buttons>
   <ion-content>
     <ion-list>
-      <ion-item  class="row" ng-repeat="image in images" ng-if="$index % 3 === 0">
-        <div class="column-left" ng-if="$index < images.length">
-          <img ng-src="{{images[$index].imageUrl}}" class="gallery" ng-click="showImage($index)"/>
+      <ion-item  class="row gallery" ng-repeat="image in images" ng-if="$index % 3 === 0">
+        <div class="col" ng-if="$index < images.length">
+          <img cache-src="{{images[$index].imageUrl}}" class="galleryImg" ng-click="openModal($index)"/>
         </div>
-        <div class="column-center" ng-if="$index + 1 < images.length">
-          <img ng-src="{{images[$index + 1].imageUrl}}" class="gallery" ng-click="showImage($index + 1)" />
+        <div class="col" ng-if="$index + 1 < images.length">
+          <img cache-src="{{images[$index + 1].imageUrl}}" class="galleryImg" ng-click="openModal($index + 1)" />
         </div>
-        <div class="column-right" ng-if="$index + 2 < images.length">
-          <img ng-src="{{images[$index + 2].imageUrl}}" class="gallery" ng-click="showImage($index + 2)" />
+        <div class="col" ng-if="$index + 2 < images.length">
+          <img cache-src="{{images[$index + 2].imageUrl}}" class="galleryImg" ng-click="openModal($index + 2)" />
         </div>
       </ion-item>
     </ion-list>
-    <script id="image-modal.html" type="text/ng-template">
-      <div class="modal image-modal transparent" ng-click="closeModal()">
-        <ion-pane class="transparent">
-          <img ng-src="{{imageSrc}}" class="fullscreen-image"/>
-        </ion-pane>
-      </div>
-    </script>
   </ion-content>
+  <script id="image-modal.html" type="text/ng-template" >
+    <ion-modal-view >
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">{{selectedImage.title}}</h1>
+        <div class="buttons">
+          <button ng-click="addRemoveFavorite()"
+                  ng-class="{'button icon-right ion-star button-energized': !selectedImage.favorite.bool,
+                  'button icon-right ion-star button-assertive' : selectedImage.favorite.bool}">{{selectedImage.favorite.text}}
+          </button>
+        </div>
+      </ion-header-bar>
+      <ion-content class="dark">
+        <div class="img-holder dark">
+          <img cache-src="{{selectedImage.imageUrl}}" class="img-modal" />
+        </div>
+        <button class="button custom-button button-dark" ng-click="closeModal()">
+          Close
+        </button>
+      </ion-content>
+    </ion-modal-view>
+  </script>
 </ion-view>

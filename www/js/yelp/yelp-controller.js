@@ -12,6 +12,8 @@
 
   /* @ngInject */
   function YelpCtrl($scope, YelpService, MapService, $ionicPopup, $stateParams, $localStorage) {
+    var isFavoritesPage = false;
+    var tempRestaurants = []; // Wordt gebruikt als cache als de favorieten worden getoond.
 
     $scope.loadRestaurants = function() {
       var map = MapService.getMap();
@@ -42,30 +44,25 @@
       $scope.restaurant = YelpService.getRestaurantById(restaurantId);
       $scope.showSnippetText = ($scope.restaurant.snippet_text !== undefined); // laat een card zien als er tekst is
 
-      isRestaurantFavorite(restaurantId);
-    };
-
-    function isRestaurantFavorite(restaurantId) {
       $scope.favorite = {};
-      $scope.favorite.bool = false;
-      $scope.favorite.text = 'Favorites';
+      var favorite = false;
+      var text = 'Favorites';
 
       // Lokale opslag zetten als die nog niet bestaat
-      if($localStorage.favorites == undefined) {
-        $localStorage.favorites = [];
-      }
-
+      if($localStorage.favorites == undefined) $localStorage.favorites = [];
       var favorites = $localStorage.favorites;
       console.log(favorites);
 
       for(var i = 0; i < favorites.length; i++) {
         var favoriteId = favorites[i].id;
         if(favoriteId == restaurantId) {
-          $scope.favorite.bool = true;
-          $scope.favorite.text = 'Unfavorite';
+          favorite = true;
+          text = 'Unfavorite';
         }
       }
-    }
+      $scope.favorite.text = text;
+      $scope.favorite.bool = favorite;
+    };
 
     $scope.addRemoveFavorite = function () {
       $scope.favorite.bool = !$scope.favorite.bool;
@@ -80,10 +77,28 @@
       {
         var index = $localStorage.favorites.indexOf($scope.restaurant);
         if (index > -1) {
-          array.splice(index, 1);
+          $localStorage.favorites.splice(index, 1);
         }
         $scope.favorite.text = 'Favorites';
       }
+    };
+
+    $scope.loadFavorites = function () {
+      console.log('laad favorieten');
+      isFavoritesPage = !isFavoritesPage;
+
+      if(isFavoritesPage) {
+        if($localStorage.favorites == undefined) $localStorage.favorites = [];
+        console.log($localStorage.favorites);
+
+        // temp array vullen
+        tempRestaurants = $scope.restaurants;
+        $scope.restaurants = $localStorage.favorites;
+      } else {
+        $scope.restaurants = tempRestaurants;
+        tempRestaurants = []; // legen om geheugen te verkleinen.
+      }
+
     }
   }
 

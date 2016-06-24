@@ -3,3 +3,32 @@
   min-height:100px;
   height:100%;
 }
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.frame {
+  display:block;
+  vertical-align: middle;
+}
+
+.galleryImg {
+  height: 100%;
+  width: 100%;
+  padding: 10%;
+  background-color: RGBA(255, 153, 51, 0.7);
+  border: solid 2px;
+}
+
+.gallery {
+background-color: RGBA(230, 230, 230, 1);
+}

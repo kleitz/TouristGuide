@@ -4,11 +4,34 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="{{chat.name}}">
+<ion-view view-title="{{restaurant.name}}" ng-init="getRestaurantById()">
   <ion-content class="padding">
-    <img ng-src="{{chat.face}}" style="width: 64px; height: 64px">
-    <p>
-      {{chat.lastText}}
-    </p>
+    <div class="item">
+      <button id="btnAddFavorite" ng-click="addRemoveFavorite()"
+              ng-class="{'button icon-right ion-star button-energized button-outline right': !favorite.bool, 'button icon-right ion-star button-assertive button-outline right' : favorite.bool}">{{favorite.text}}</button>
+      <div>
+        <div class="frame">
+          <img ng-src="{{restaurant.image_url}}">
+        </div>
+        <div class="frame">
+          <img ng-src="{{restaurant.rating_img_url_large}}" >
+        </div>
+      </div>
+      <ul style="list-style-type:none" class="left">
+        <li>City: {{restaurant.location.city}}</li>
+        <ion-list>
+          <ion-item ng-repeat="address in restaurant.location.address" class="item-borderless no-padding" >
+            <li>Address {{$index+1}}: {{address}}</li>
+          </ion-item>
+        </ion-list>
+        <li>Phone number: {{restaurant.display_phone}}</li>
+        <a href="{{restaurant.mobile_url}}">Link to the yelp page</a>
+      </ul>
+    </div>
+    <div class="card" ng-show="showSnippetText">
+      <div class="item item-text-wrap">
+        {{restaurant.snippet_text}}
+      </div>
+    </div>
   </ion-content>
 </ion-view>

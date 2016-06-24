@@ -84,18 +84,7 @@
             controller: 'FlickrCtrl'
           }
         }
-      })
-
-      .state('tab.favorites', {
-        url: '/favorites',
-        views: {
-          'tab-favorites': {
-            templateUrl: 'templates/tab-favorites.html',
-            controller: 'FavoritesCtrl'
-          }
-        }
       });
-
 
     $urlRouterProvider.otherwise('/tab/map');
   }

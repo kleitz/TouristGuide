@@ -7,7 +7,8 @@
   angular.module('tg', [
     'ionic',
     'tg.app',
-    'ngStorage'
+    'ngStorage',
+    'ionic-cache-src'
   ])
 
 })();
