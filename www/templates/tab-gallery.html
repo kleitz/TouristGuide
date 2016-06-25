@@ -1,11 +1,11 @@
 <ion-view view-title="Gallery">
   <ion-nav-buttons side="secondary">
-    <button class="button" ng-click="loadFavorites()">
+    <button class="button button-stable" ng-click="loadFavorites()">
       Favorites
     </button>
   </ion-nav-buttons>
-  <ion-content>
-    <ion-list>
+  <ion-content class="gallery">
+    <ion-list >
       <ion-item  class="row gallery" ng-repeat="image in images" ng-if="$index % 3 === 0">
         <div class="col" ng-if="$index < images.length">
           <img cache-src="{{images[$index].imageUrl}}" class="galleryImg" ng-click="openModal($index)"/>
@@ -19,6 +19,19 @@
       </ion-item>
     </ion-list>
   </ion-content>
+
+  <!-- Pager -->
+  <ion-footer-bar class="bar-stable">
+    <div class="buttons"  ng-click="previousPage()">
+      <button class="button" ng-show="hasPreviousPage">Previous page</button>
+    </div>
+    <h1 class="title">Page {{}} of {{}}</h1>
+    <div class="buttons" ng-click="nextPage()">
+      <button class="button" ng-show="hasNextPage">Next page</button>
+    </div>
+  </ion-footer-bar>
+
+  <!-- Image modal -->
   <script id="image-modal.html" type="text/ng-template" >
     <ion-modal-view >
       <ion-header-bar class="bar-stable">
@@ -31,12 +44,14 @@
         </div>
       </ion-header-bar>
       <ion-content class="dark">
-        <div class="img-holder dark">
-          <img cache-src="{{selectedImage.imageUrl}}" class="img-modal" />
+        <div >
+          <div class="img-holder dark left">
+            <img ng-src="{{selectedImage.imageUrl}}" class="img-modal" />
+          </div>
+          <button class="button custom-button button-dark left" ng-click="closeModal()">
+            Close
+          </button>
         </div>
-        <button class="button custom-button button-dark" ng-click="closeModal()">
-          Close
-        </button>
       </ion-content>
     </ion-modal-view>
   </script>

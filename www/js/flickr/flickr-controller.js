@@ -8,30 +8,34 @@
     .module('tg.app')
     .controller('FlickrCtrl', FlickrCtrl);
 
-  FlickrCtrl.$inject = ['$scope', 'FlickrService', 'MapService', '$ionicModal', '$localStorage'];
+  FlickrCtrl.$inject = ['$scope', 'FlickrService', 'MapService', '$ionicModal', '$localStorage', '$ionicScrollDelegate', '$ionicPopup'];
 
   /* @ngInject */
-  function FlickrCtrl($scope, FlickrService, MapService, $ionicModal, $localStorage) {
-    var lat, lng = {};
-    var isFavoritesPage = false;
+  function FlickrCtrl($scope, FlickrService, MapService, $ionicModal, $localStorage, $ionicScrollDelegate, $ionicPopup) {
+    var isFavoritesPage = false, tempImages = []; // Wordt gebruikt als cache als de favorieten worden getoond.
+
     init();
 
     function init() {
-      var map = MapService.getMap();
-      if(map._lastCenter == undefined) { // zet enschede als standaard
-        lat = 52.2215;
-        lng = 6.8937;
-      }
-      else { // zet locatie
-        lat = map._lastCenter.lat;
-        lng = map._lastCenter.lng;
-      }
+      $scope.currentPage = 1;
+      $scope.hasPreviousPage = false;
 
-      FlickrService.getGallery(lat, lng).then(function (response) {
-        $scope.images = response;
+      getGallery()
+    }
+
+    function getGallery() {
+      console.log(MapService.getLat() + ' ' + MapService.getLng());
+      FlickrService.getGallery(MapService.getLat(), MapService.getLng(), $scope.currentPage).then(function (response) {
         console.log(response);
-      }, function (response) {
-
+        $scope.lastPage = response.lastPage;
+        $scope.images = response.images;
+        $scope.hasNextPage = $scope.currentPage < $scope.lastPage;
+        $scope.hasPreviousPage = 1 < $scope.currentPage;
+      }, function () {
+        $ionicPopup.alert({
+          title: 'An error occurred',
+          template: 'Can\'t retrieve images nearby'
+        });
       });
     }
 
@@ -90,14 +94,31 @@
     };
 
     $scope.loadFavorites = function () {
-      console.log('laad favorieten');
-      if($localStorage.images == undefined) {
-        $localStorage.images = [];
-      }
-      console.log($localStorage.images);
-      $scope.images = $localStorage.images;
-    }
+      $ionicScrollDelegate.scrollTop();
+      isFavoritesPage = !isFavoritesPage;
 
+      if(isFavoritesPage) {
+        if($localStorage.images == undefined) {
+          $localStorage.images = [];
+        }
+        tempImages = $scope.images;
+        $scope.images = $localStorage.images;
+      }
+      else {
+        $scope.images = tempImages;
+        tempImages = [];
+      }
+    };
+
+    $scope.nextPage = function () {
+      $scope.currentPage++;
+      getGallery();
+    };
+
+    $scope.previousPage = function () {
+      $scope.currentPage--;
+      getGallery();
+    }
   }
 
 })();

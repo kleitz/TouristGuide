@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "angular-local-storage": "^0.2.7",
-    "ngstorage": "^0.3.10"
+    "ngstorage": "^0.3.10",
+    "leaflet-routing-machine": "^3.0.3"
   }
 }

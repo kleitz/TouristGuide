@@ -12,14 +12,13 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
-    <!-- leaflet js -->
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.css" />
-    <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js"></script>
+    <!-- leafletjs -->
+    <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="lib/leaflet-routing-machine-3.0.3/dist/leaflet-routing-machine.css" />
+    <script src="lib/leaflet/leaflet-src.js"></script>
+    <script src="lib/leaflet-routing-machine-3.0.3/dist/leaflet-routing-machine.js"></script>
 
-    <!-- Yelp -->
-    <!-- ionic/angularjs js -->
-    <!--<script src="lib/oauth/lib/oauth.js"></script>
--->
+
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <script src="lib/oauth-signature/dist/oauth-signature.js"></script>
@@ -29,10 +28,9 @@
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="cordova.js"></script>
 
+    <!-- Image chache -->
     <script src="lib/ngstorage/ngStorage.min.js"></script>
     <script src="lib/angular-svg-round-progressbar/build/roundProgress.min.js"></script>
-
-    <!-- Image chache -->
     <script src="lib/ionic-cache-src/ionic-cache-src.js"></script>
 
     <script src="js/tg-module.js"></script>
@@ -50,18 +48,12 @@
     <!-- Flickr -->
     <script src="js/flickr/flickr-controller.js"></script>
     <script src="js/flickr/flickr-service.js"></script>
-
-    <!-- Favorites -->
-    <script src="js/favorites/favorites-controller.js"></script>
-
-    <!-- ngStorage -->
-    <script src="lib/ngstorage/ngStorage.min.js"></script>
   </head>
   <body ng-app="tg">
     <!--
       The nav bar that will be updated as we navigate between views.
     -->
-    <ion-nav-bar class="bar-stable">
+    <ion-nav-bar class="bar-dark">
       <ion-nav-back-button>
       </ion-nav-back-button>
     </ion-nav-bar>

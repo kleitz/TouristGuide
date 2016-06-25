@@ -11,14 +11,9 @@
     .module('tg.app')
     .controller('MapCtrl', MapCtrl);
 
-  MapCtrl.$inject = ['MapService'];
+  MapCtrl.$inject = ['MapService' ];
 
   function MapCtrl(MapService) {
-    init();
-
-    function init() {
-      MapService.loadMap();
-      
-    }
+    MapService.loadMap();
   }
 })();

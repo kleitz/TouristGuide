@@ -8,26 +8,15 @@
     .module('tg.app')
     .controller('YelpCtrl', YelpCtrl);
 
-  YelpCtrl.$inject = ['$scope', 'YelpService', 'MapService', '$ionicPopup', '$stateParams', '$localStorage'];
+  YelpCtrl.$inject = ['$scope', 'YelpService', 'MapService', '$ionicPopup', '$stateParams', '$localStorage', '$ionicScrollDelegate', '$state'];
 
   /* @ngInject */
-  function YelpCtrl($scope, YelpService, MapService, $ionicPopup, $stateParams, $localStorage) {
+  function YelpCtrl($scope, YelpService, MapService, $ionicPopup, $stateParams, $localStorage, $ionicScrollDelegate, $state) {
     var isFavoritesPage = false;
     var tempRestaurants = []; // Wordt gebruikt als cache als de favorieten worden getoond.
 
     $scope.loadRestaurants = function() {
-      var map = MapService.getMap();
-      var lat, lng = {};
-      if(map._lastCenter == undefined) { // zet enschede als standaard
-        lat = 52.2215;
-        lng = 6.8937;
-      }
-      else { // zet locatie
-        lat = map._lastCenter.lat;
-        lng = map._lastCenter.lng;
-      }
-
-      YelpService.getRestaurants(lat, lng).then(function (result) { // TODO lat long vanaf de kaart
+      YelpService.getRestaurants(MapService.getLat(), MapService.getLng()).then(function (result) { // TODO lat long vanaf de kaart
         console.log(result);
         $scope.restaurants = result;
       }, function (result) {
@@ -45,13 +34,11 @@
       $scope.showSnippetText = ($scope.restaurant.snippet_text !== undefined); // laat een card zien als er tekst is
 
       $scope.favorite = {};
-      var favorite = false;
-      var text = 'Favorites';
+      var favorite = false, text = 'Favorites';
 
       // Lokale opslag zetten als die nog niet bestaat
       if($localStorage.favorites == undefined) $localStorage.favorites = [];
       var favorites = $localStorage.favorites;
-      console.log(favorites);
 
       for(var i = 0; i < favorites.length; i++) {
         var favoriteId = favorites[i].id;
@@ -62,6 +49,9 @@
       }
       $scope.favorite.text = text;
       $scope.favorite.bool = favorite;
+
+      console.log($scope.restaurant);
+
     };
 
     $scope.addRemoveFavorite = function () {
@@ -84,7 +74,7 @@
     };
 
     $scope.loadFavorites = function () {
-      console.log('laad favorieten');
+      $ionicScrollDelegate.scrollTop();
       isFavoritesPage = !isFavoritesPage;
 
       if(isFavoritesPage) {
@@ -96,9 +86,15 @@
         $scope.restaurants = $localStorage.favorites;
       } else {
         $scope.restaurants = tempRestaurants;
-        tempRestaurants = []; // legen om geheugen te verkleinen.
+        tempRestaurants = [];
       }
+    };
 
+    $scope.getRoute = function () {
+      var lat = $scope.restaurant.location.coordinate.latitude;
+      var lng = $scope.restaurant.location.coordinate.longitude;
+      $state.go('tab.map');
+      MapService.getRouteTowards(lat, lng);
     }
   }
 

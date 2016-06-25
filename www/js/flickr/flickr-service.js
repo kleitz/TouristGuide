@@ -8,42 +8,37 @@
     .module('tg.app')
     .service('FlickrService', FlickrService);
 
-  FlickrService.$inject = ['$http'];
+  FlickrService.$inject = ['$http', '$q'];
 
   /* @ngInject */
-  function FlickrService($http) {
+  function FlickrService($http, $q) {
     this.getGallery = getGallery;
 
     var url = '';
-    var photoArray = [];
-    var apikey = 'api_key=67d7e2fcb565d3999af0b66175a9e2d6',
-      latitude = '',
-      longitude = '',
-      pageCount = '',
-      pageNumberStr = '',
-      pageNumberInt = 1,
-      lastPageNumberInt = 0,
-      format = '',
-      jsonCallback = '';
+    var result = {};
+    var format = 'format=json';
+    var jsonCallback = 'nojsoncallback=1';
+    var apikey = 'api_key=67d7e2fcb565d3999af0b66175a9e2d6';
 
-    function getGallery(lat, lng) {
-      latitude = 'lat=' + lat;
-      longitude = 'lon=' + lng;
-      pageCount = 'per_page=' + 20;
-      pageNumberStr = 'page=' + pageNumberInt;
-      format = 'format=json';
-      jsonCallback = 'nojsoncallback=1';
+    function getGallery(lat, lng, pageNumber) {
+      var latitude = 'lat=' + lat;
+      var longitude = 'lon=' + lng;
+      var pageCount = 'per_page=' + 24;
+      var pageNumberStr = 'page=' + pageNumber;
+      var deferred = $q.defer();
 
       urlBuilderSearch([apikey, latitude, longitude, pageCount, pageNumberStr, format, jsonCallback]);
       console.log(url);
 
       return $http.get(url, null).then(function (response) {
-        photoArray = setImageUrls(response.data.photos.photo);
-        lastPageNumberInt = response.data.photos.pages;
         console.log(response);
-        return photoArray;
-      }, function (response) {
-        console.log(response);
+        if(response.data.photos.photo == undefined) {
+          deferred.reject();
+          return deferred.promise;
+        }
+        result.images = setImageUrls(response.data.photos.photo);
+        result.lastPage = response.data.photos.pages;
+        return result;
       })
     }
 
