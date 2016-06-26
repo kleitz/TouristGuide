@@ -36,6 +36,8 @@
         lat = position.coords.latitude;
         lng = position.coords.longitude;
         latLng = new google.maps.LatLng(lat, lng);
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        mapOptions.center = latLng;
         locateUser(latLng);
       }, function(){
         $ionicPopup.alert({
