@@ -8,7 +8,9 @@
     'ionic',
     'tg.app',
     'ngStorage',
-    'ionic-cache-src'
+    'ngCordova',
+    'ionic-cache-src',
+    'ngCordova.plugins.network'
   ])
 
 })();

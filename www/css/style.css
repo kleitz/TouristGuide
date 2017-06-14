@@ -67,3 +67,9 @@
   margin-right: 5%;
   margin-top: 10px;
 }
+
+.middle-parent {
+  position: relative;
+  top: 10%;
+  text-align: center;
+}

@@ -1,5 +1,6 @@
 {
   "name": "TouristGuide",
   "app_id": "",
+  "type": "ionic1",
   "defaultBrowser": "firefox"
 }

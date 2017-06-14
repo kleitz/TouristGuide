@@ -1,10 +1,11 @@
 <ion-view view-title="Restaurants" ng-init="loadRestaurants()">
   <ion-nav-buttons side="secondary">
     <button class="button button-stable" ng-click="loadFavorites()">
-      Favorites
+      {{favoritesOrOverviewTxt}}
     </button>
   </ion-nav-buttons>
   <ion-content>
+    <H1 class="middle-parent" ng-hide="HideHasNoFavoritesYelpTxt">No favorites yet!</H1>
     <ion-list>
       <ion-item class=" item-avatar item-icon-right" ng-repeat="restaurant in restaurants" type="item-text-wrap" ui-sref="tab.restaurants-detail({id: restaurant.id})" >
         <img cache-src="{{restaurant.image_url}}" circle-container-style="display:none;" src-is="background">

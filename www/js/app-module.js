@@ -4,6 +4,6 @@
 (function () {
   'use strict';
 
-  angular.module('tg.app', [])
+  angular.module('tg.app', [ ])
 
 })();

@@ -28,13 +28,16 @@
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.touristguide872015"
         },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.ionicframework.touristguide872015"
+        },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "com.ionicframework.touristguide872015"
         },
         "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.ionicframework.touristguide872015"
         },
-        "cordova-plugin-geolocation": {
+        "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.ionicframework.touristguide872015"
         }
     },

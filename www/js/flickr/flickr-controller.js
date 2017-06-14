@@ -17,8 +17,10 @@
     init();
 
     function init() {
+      $scope.favoritesOrOverviewFlickrTxt = "Favorites";
       $scope.currentPage = 1;
       $scope.hasPreviousPage = false;
+      $scope.HideHasNoFavoritesTxt = true;
 
       getGallery()
     }
@@ -82,7 +84,8 @@
       if(img.favorite.bool) {
         $scope.selectedImage.favorite.text = 'Unfavorite';
         $localStorage.images.push(img);
-      } else {
+      }
+      else {
         var index = $localStorage.images.indexOf(img);
         if (index > -1) {
           $localStorage.images.splice(index, 1);
@@ -98,15 +101,21 @@
       isFavoritesPage = !isFavoritesPage;
 
       if(isFavoritesPage) {
+        $scope.favoritesOrOverviewFlickrTxt = "Overview";
+        $scope.hideNavbar = true;
         if($localStorage.images == undefined) {
           $localStorage.images = [];
         }
         tempImages = $scope.images;
         $scope.images = $localStorage.images;
+        $scope.HideHasNoFavoritesTxt = $scope.images.length > 0;
       }
       else {
+        $scope.hideNavbar = false;
+        $scope.favoritesOrOverviewFlickrTxt = "Favorites";
         $scope.images = tempImages;
         tempImages = [];
+        $scope.HideHasNoFavoritesTxt = true;
       }
     };
 

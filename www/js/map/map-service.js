@@ -18,54 +18,55 @@
     this.loadMap = loadMap;
 
     var lat = 52.2215, lng = 6.8937; // default enschede
-    var map = {}, latLng = new google.maps.LatLng(lat,lng);
-    var directionsDisplay = new google.maps.DirectionsRenderer;
-    var directionsService = new google.maps.DirectionsService;
+    try {
+      var map = {}, latLng = new google.maps.LatLng(lat,lng);
+      var directionsDisplay = new google.maps.DirectionsRenderer;
+      var directionsService = new google.maps.DirectionsService;
+    } catch (err) {
+      $ionicPopup.alert({
+        title: 'Can\'t load map',
+        template: 'To use the map make sure you have connection with the internet'
+      });
+    }
+
+    navigator.geolocation.getCurrentPosition
+    (onMapSuccess, onMapError, { enableHighAccuracy: true });
+
+    function onMapSuccess(position) {
+      console.log(position);
+      lat = position.coords.latitude;
+      lng = position.coords.longitude;
+      loadMap();
+    }
+
+    function onMapError(error) {
+      $ionicPopup.alert({
+        title: 'An error occurred',
+        template: 'Can\'t retrieve user location'
+      });
+    }
+
 
     function loadMap() {
-      var options = {timeout: 10000, enableHighAccuracy: true};
+      latLng = new google.maps.LatLng(lat, lng);
+
       var mapOptions = {
         center: latLng,
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
+
       map = new google.maps.Map(document.getElementById("map"), mapOptions);
       directionsDisplay.setMap(map);
 
-      $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-        lat = position.coords.latitude;
-        lng = position.coords.longitude;
-        latLng = new google.maps.LatLng(lat, lng);
-        map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        mapOptions.center = latLng;
-        locateUser(latLng);
-      }, function(){
-        $ionicPopup.alert({
-          title: 'An error occurred',
-          template: 'Can\'t retrieve user location'
-        });
+      var marker = new google.maps.Marker({
+        position: latLng
       });
-    }
 
-    function locateUser(latLng) {
+      marker.setMap(map);
+      map.setZoom(15);
+      map.setCenter(marker.getPosition());
 
-      //Wait until the map is loaded
-      google.maps.event.addListenerOnce(map, 'idle', function(){
-
-        var marker = new google.maps.Marker({
-          map: map,
-          animation: google.maps.Animation.DROP,
-          position: latLng
-        });
-        var infoWindow = new google.maps.InfoWindow({
-          content: "Here I am!"
-        });
-
-        google.maps.event.addListener(marker, 'click', function () {
-          infoWindow.open(map, marker);
-        });
-
-      });
     }
 
     function getLat() {
@@ -78,12 +79,12 @@
 
     function getRouteTowards(latTowards, lngTowards) {
       directionsService.route({
-        origin: {lat: lat, lng: lng},  // Haight.
-        destination: {lat: latTowards, lng: lngTowards},  // Ocean Beach.
+        origin: {lat: lat, lng: lng},
+        destination: {lat: latTowards, lng: lngTowards},
 
         travelMode: google.maps.TravelMode["WALKING"]
       }, function(response, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
+        if (status === google.maps.DirectionsStatus.OK) {
           directionsDisplay.setDirections(response);
         } else {
           window.alert('Directions request failed due to ' + status);

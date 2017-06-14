@@ -38,11 +38,16 @@
       });
     }
 
+    function getRestaurantById(restaurantId, restaurantsList) {
+      if(restaurantsList == undefined) restaurantsList = restaurants;
 
-    function getRestaurantById(restaurantId) {
-      for(var i = 0; i < restaurants.length; i++) {
-        var restaurant = restaurants[i];
-        if(restaurant.id == restaurantId) return restaurant;
+      for(var i = 0; i < restaurantsList.length; i++) {
+        var restaurant = restaurantsList[i];
+        if(restaurant.id == restaurantId) {
+          console.log(restaurant);
+          return restaurant;
+
+        }
       }
     }
   }

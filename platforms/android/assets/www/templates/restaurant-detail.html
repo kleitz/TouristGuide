@@ -8,7 +8,9 @@
   <ion-content class="padding">
     <div class="item">
       <button id="btnAddFavorite" ng-click="addRemoveFavorite()"
-              ng-class="{'button icon-right ion-star button-energized button-outline right': !favorite.bool, 'button icon-right ion-star button-assertive button-outline right' : favorite.bool}">{{favorite.text}}</button>
+              ng-class="{'button icon-right ion-star button-energized button-outline right': !favorite, 'button icon-right ion-star button-assertive button-outline right' : favorite}">
+        {{favorite ? 'Unfavorite' : 'Favorite'}}
+      </button>
       <div>
         <div class="frame">
           <img cache-src="{{restaurant.image_url}}" circle-container-style="display:none;">
@@ -25,7 +27,7 @@
           </ion-item>
         </ion-list>
         <li>Phone number: {{restaurant.display_phone}}</li>
-        <a ng-href="{{restaurant.mobile_url}}">Link to the yelp page</a>
+        <a ng-href="{{restaurant.mobile_url}}" target="_blank">Yelp page of {{restaurant.name}}</a>
       </ul>
     </div>
 
@@ -34,7 +36,7 @@
         {{restaurant.snippet_text}}
       </div>
     </div>
-    <div class="card">
+    <div class="card" ng-show="isOnline">
       <div class="item item-text-wrap">
         <button class="button button-clear button-block button-icon ion-flag button-balanced" ng-click="getRoute()">Get route information</button>
       </div>
